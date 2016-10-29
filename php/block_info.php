@@ -3,7 +3,7 @@ session_start();
 	require 'database_connection.php';
 	$display = "";
 	$count = 0;
-	if(!isset($_GET['blockNo'])){
+	if(!isset($_GET['blockNo']) || !isset($_SESSION['rsUserName'])){
 		header('location:index.php');
 	}
 	$blockNo = $mysqli->real_escape_string($_GET['blockNo']);
