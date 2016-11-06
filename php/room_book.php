@@ -1,7 +1,7 @@
 <?php
 session_start();
 require 'database_connection.php';
-if(!isset($_GET['blockNo'])){
+if(!isset($_GET['blockNo']) || !isset($_SESSION['rsUserName'])){
     header('location:block_info.php');
 }
 $blockNo = $_GET['blockNo'];
@@ -84,6 +84,7 @@ $query1 = $mysqli->query("SELECT * FROM teacher ORDER BY teacherMail ASC") or di
     <br>
     <form method="post">
         <h2>BOOK ROOM</h2>
+      
         <table class="form-control">
             <tr>
                 
@@ -120,7 +121,6 @@ $query1 = $mysqli->query("SELECT * FROM teacher ORDER BY teacherMail ASC") or di
                 <td><label>Requested By</label></td>
                 <td><input name="teacherMail" id="teacherMail" type="email" required/></td>
             </tr>
-
 
             <tr>
                 <td><input type="submit" id="bookRoom" name="bookRoom" value="Submit"/></td>

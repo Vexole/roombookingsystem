@@ -6,11 +6,12 @@ $display = "";
 if(isset($_GET['teacherMail'])){
 	$teacherMail = $_GET['teacherMail'];
 	$display .= "<h2>$teacherMail </h2> booking details<hr><br>";
-	$logQuery = $mysqli->query("SELECT * FROM booked_room WHERE teacherMail = '$teacherMail'") or die($mysqli->error);
+	$logQuery = $mysqli->query("SELECT * FROM booked_room WHERE teacherMail = '$teacherMail' ORDER BY bookedDate") or die($mysqli->error);
 	if($logQuery->num_rows){
 		$display .= " 
 		<tbody>
 			<tr>
+				<td>Booked Date&nbsp;&nbsp;&nbsp;</td>
 				<td>Block No&nbsp;&nbsp;&nbsp;</td>
 				<td>Room No&nbsp;&nbsp;&nbsp;</td>
 				<td>Course Code&nbsp;&nbsp;&nbsp;</td>
@@ -20,6 +21,7 @@ if(isset($_GET['teacherMail'])){
 		</tbody>
 		";
 		while($rows = $logQuery->fetch_array(MYSQLI_ASSOC)){
+			$bookedDate = $rows['bookedDate'];
 			$blockNo = $rows['blockNo'];
 			$roomNo = $rows['roomNo'];
 			$courseCode = $rows['courseCode'];
@@ -28,6 +30,7 @@ if(isset($_GET['teacherMail'])){
 			$display .= " 
 				<tbody>
 					<tr>
+						<td>$bookedDate &nbsp;&nbsp;&nbsp;</td>
 						<td>$blockNo &nbsp;&nbsp;&nbsp;</td>
 						<td>$roomNo &nbsp;&nbsp;&nbsp;</td>
 						<td>$courseCode &nbsp;&nbsp;&nbsp;</td>
