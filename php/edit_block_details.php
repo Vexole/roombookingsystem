@@ -53,18 +53,18 @@ if($query->num_rows){
         
         <div class="row">
             <div class="input-field col s12">
-        <p>Block Name</p><input name="departmentName" id="departmentName" type="text" value="<?=$departmentName?>"/>
+        <p>Block Name</p><input name="departmentName" id="departmentName" type="text" value="<?=$departmentName?>" required/>
          </div>
         </div>
         <div class="row">
             <div class="input-field col s12">
-        <p>Block No.</p><input name="blockNo" id="blockNo" type="text" value="<?=$blockNo?>"/>
+        <p>Block No.</p><input name="blockNo" id="blockNo" type="text" value="<?=$blockNo?>" required/>
             </div>
         </div>
         
         <div class="row">
             <div class="input-field col s12">
-                <p>Number of Rooms</p><input name="numberOfRooms" id="numberOfRooms" type="text" value="<?=$numberOfRooms?>"/>
+                <p>Number of Rooms</p><input name="numberOfRooms" id="numberOfRooms" type="text" value="<?=$numberOfRooms?>" required/>
                 </div>
         </div>
         <div class="row">

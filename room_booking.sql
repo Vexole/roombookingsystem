@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2016 at 05:39 PM
+-- Generation Time: Nov 06, 2016 at 02:09 PM
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 --
 
 CREATE TABLE IF NOT EXISTS `booked_room` (
+  `bookedID` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `bookedDate` date NOT NULL,
   `startTime` time NOT NULL,
@@ -48,17 +49,33 @@ CREATE TABLE IF NOT EXISTS `booked_room` (
   `teacherMail` varchar(50) NOT NULL,
   `roomNo` int(11) NOT NULL,
   `blockNo` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `booked_room`
 --
 
-INSERT INTO `booked_room` (`status`, `bookedDate`, `startTime`, `finishTime`, `courseCode`, `teacherMail`, `roomNo`, `blockNo`) VALUES
-(0, '2016-09-29', '21:00:00', '23:00:00', 'COMP 304', 'rbista@ku.edu.np', 5, 12),
-(0, '2016-09-29', '21:00:00', '23:00:00', 'COMP 304', 'rbista@ku.edu.np', 2, 12),
-(0, '2016-09-29', '23:00:00', '23:30:00', 'COMP 304', 'skhanal@ku.edu.np', 4, 12),
-(0, '2016-09-30', '09:00:00', '11:00:00', 'MGTS 401', 'skhanal@ku.edu.np', 4, 12);
+INSERT INTO `booked_room` (`bookedID`, `status`, `bookedDate`, `startTime`, `finishTime`, `courseCode`, `teacherMail`, `roomNo`, `blockNo`) VALUES
+(1, 0, '2016-09-29', '21:00:00', '23:00:00', 'COMP 304', 'rbista@ku.edu.np', 5, 12),
+(2, 0, '2016-09-29', '21:00:00', '23:00:00', 'COMP 304', 'rbista@ku.edu.np', 2, 12),
+(3, 0, '2016-09-29', '23:00:00', '23:30:00', 'COMP 304', 'skhanal@ku.edu.np', 4, 12),
+(4, 1, '2016-09-30', '09:00:00', '11:00:00', 'MGTS 401', 'skhanal@ku.edu.np', 4, 12),
+(5, 1, '2016-09-30', '13:00:00', '14:00:00', 'COMP 304', 'rbista@ku.edu.np', 2, 12),
+(6, 1, '2016-09-30', '13:00:00', '15:00:00', 'COMP 401', 'skhanal@ku.edu.np', 7, 3),
+(7, 1, '2016-09-30', '10:00:00', '11:00:00', 'MGTS 404', 'rbista@ku.edu.np', 12, 5),
+(8, 1, '2016-09-30', '12:00:00', '14:00:00', 'COMP 304', 'The first Teacher', 4, 12),
+(9, 1, '2016-09-30', '10:00:00', '12:00:00', 'COMP 304', 'Sample teacher', 2, 12),
+(10, 1, '2016-10-26', '12:00:00', '14:00:00', 'COMP 304', 'skhanal@ku.edu.np', 50, 3),
+(11, 1, '2016-10-27', '10:00:00', '11:00:00', 'COMP 304', 'rbista@ku.edu.np', 7, 3),
+(12, 1, '2016-10-27', '10:00:00', '11:00:00', 'COEG301', 'skhanal@ku.edu.np', 7, 3),
+(13, 1, '2016-10-28', '10:00:00', '12:00:00', 'COMP 304', 'rbista@ku.edu.np', 50, 3),
+(14, 1, '2016-10-28', '13:00:00', '14:00:00', 'COMP 304', 'skhanal@ku.edu.np', 7, 3),
+(15, 0, '2016-10-28', '14:00:00', '16:00:00', 'COMP 304', 'skhanal@ku.edu.np', 50, 3),
+(16, 1, '2016-10-28', '09:00:00', '10:00:00', 'COMP 401', 'rbista@ku.edu.np', 7, 3),
+(17, 0, '2016-10-28', '12:00:00', '15:00:00', 'COMP 304', 'rbista@ku.edu.np', 12, 5),
+(18, 1, '2016-10-28', '09:00:00', '10:00:00', 'COMP 304', 'skhanal@ku.edu.np', 12, 5),
+(19, 0, '2016-10-29', '15:00:00', '16:00:00', 'COMP 304', 'pkharel@ku.edu.np', 7, 3),
+(20, 1, '2016-11-06', '13:00:00', '14:00:00', 'COMP 401', 'pkharel@ku.edu.np', 7, 3);
 
 -- --------------------------------------------------------
 
@@ -79,10 +96,10 @@ CREATE TABLE IF NOT EXISTS `course` (
 --
 
 INSERT INTO `course` (`courseName`, `departmentName`, `courseCode`, `year`, `semester`) VALUES
-('Control', 'Mechanical', 'COEG 304', 3, 2),
-('Computer Networking', 'Computer Science and Engineering', 'COMP 101', 1, 2),
-('C Programming', 'Computer Science and Engineering', 'COMP102', 1, 1),
-('Engineering Management', 'Management', 'MGTS 401', 4, 1);
+('Control Systems', 'Mechanical', 'COEG304', 3, 2),
+('C Programming', 'Computer Science and Engineering', 'COMP102', 1, 2),
+('Software Engineering', 'Computer Science and Engineering', 'COMP412', 4, 1),
+('Artificial Intellegence', 'Computer Science and Engineering', 'COMP442', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -126,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `department` (
 INSERT INTO `department` (`departmentName`, `blockNo`, `numberOfRooms`, `photo_id`) VALUES
 ('Administration', 7, 15, 0),
 ('Bio. Tech', 10, 7, 0),
-('CE', 5, 28, 0),
+('CE', 5, 15, 0),
 ('CivilE', 11, 5, 0),
 ('Electrical', 4, 8, 0),
 ('GE', 9, 10, 0),
@@ -134,7 +151,8 @@ INSERT INTO `department` (`departmentName`, `blockNo`, `numberOfRooms`, `photo_i
 ('Geometics', 20, 5, 0),
 ('Gol Ghar', 6, 5, 0),
 ('ME', 8, 27, 0),
-('Pharmacy', 12, 9, 0);
+('Pharmacy', 12, 15, 0),
+('Sample Block', 13, 4, 0);
 
 -- --------------------------------------------------------
 
@@ -227,6 +245,12 @@ INSERT INTO `user` (`userID`, `userName`, `password`, `school`, `department`) VA
 --
 
 --
+-- Indexes for table `booked_room`
+--
+ALTER TABLE `booked_room`
+  ADD PRIMARY KEY (`bookedID`);
+
+--
 -- Indexes for table `course`
 --
 ALTER TABLE `course`
@@ -266,6 +290,11 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `booked_room`
+--
+ALTER TABLE `booked_room`
+  MODIFY `bookedID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `teacher`
 --

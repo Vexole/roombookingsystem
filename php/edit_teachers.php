@@ -6,7 +6,7 @@ require 'database_connection.php';
 
 		if(isset($_GET['teacherID'])){
 			$teacherID = $_GET['teacherID'];
-			$delete = $mysqli->query("DELETE FROM teacher where teacherID = $teacherID") or die($mysqli->error);
+			$delete = $mysqli->query("DELETE FROM teacher where teacherID = '$teacherID'") or die($mysqli->error);
 			header('location:edit_teachers.php');
 		}
 
@@ -31,7 +31,7 @@ require 'database_connection.php';
 			 	<td>$departmentName</td>
 			 	<td>$teacherMail</td>
 			 	<td>$number</td>
-			 	<td> <a href=\"#\" > Edit</td>
+			 	<td> <a href=\"edit_teacher_details.php?teacherID=$teacherID\" > Edit</td>
 			 	<td><a href=\"edit_teachers.php?teacherID=$teacherID\">Delete</td>
 			 </tr>
 			</tbody>";
@@ -41,7 +41,7 @@ require 'database_connection.php';
 		}
 
 	}else{
-		header("location: login.php");
+		header("location:login.php");
 	}
 ?>
 
@@ -53,8 +53,14 @@ require 'database_connection.php';
     <meta name="theme-color" content="#2196F3">
     <title>Teacher Info | Room Booking System</title>
 
-    <link href="../css/style.css" type="text/css" rel="stylesheet">
-    <link href="../css/plugin.css" type="text/css" rel="stylesheet" >
+    <link href="../css/style.css" type="text/css" rel="stylesheet"/>
+    <link href="../css/plugin.css" type="text/css" rel="stylesheet" />
+    <style type="text/css">
+        .imp{
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+    </style>
 </head>
 <body >
 
@@ -66,11 +72,7 @@ require 'database_connection.php';
     <div class="loader-section section-right"></div>
  
 </div>
-<style>
-body{
-background: white;
-}
-</style>	
+	
 <!--Navigation-->
  <div class="navbar-fixed">
     <nav id="nav_f" class="default_color" role="navigation">
@@ -148,8 +150,21 @@ background: white;
     <div class="modal-body">
 	  <form class="col s12">
 		<p> Teacher Name</p> <input class="input-field" id="teacherName" type="text"/>
+		<p> Deparment Associated</p> 
 
-		<p> Deparment Associated</p> <input class="input-field" id="departmentName" type="text"/>
+			<select name="departmentName" id='departmentName' class="imp" required>
+
+                    <?php 
+                        if($departmentList->num_rows){
+                            while ($row = $departmentList->fetch_array(MYSQLI_ASSOC)) {
+                                $departmentName = $row['departmentName'];
+                    ?>
+                        <option id="departmentName" value="<?= $departmentName ?>"><?= $departmentName ?></option>
+                    <?php } }else{ ?>
+                        <option value="" id="departmentName"></option>
+                    <?php }?>         
+            </select>
+
 		<p> Mail </p> <input class="input-field" id="teacherMail" type="email"/>
 		<p> Number </p> <input class="input-field" id="number" type="number"/>
 		<input type="submit" id="addTeacher"/>

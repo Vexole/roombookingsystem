@@ -24,11 +24,11 @@ $(document).ready(function () {
                         }
                     },
                     success: function (data) {
-                        if(data == "1"){
+                        if(data != "1"){
+                            alert("Room Already in use.");
+                        }else{
                             alert("Successfully Booked");
                             window.location.replace('../php/index.php');
-                        }else{
-                            alert("Room Already in use.");
                         }
                     }
                 });

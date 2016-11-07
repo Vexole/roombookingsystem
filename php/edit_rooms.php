@@ -9,8 +9,8 @@ require 'database_connection.php';
 			$delete = $mysqli->query("DELETE FROM course where courseCode = '$courseCode'") or die($mysqli->error);
 			header('location:edit_courses.php');
 		}
-		$departmentList = $mysqli->query("SELECT departmentName FROM department ORDER BY departmentName ASC") or die($mysqli->error);
 
+		$departmentList = $mysqli->query("SELECT blockNo FROM department ORDER BY blockNo ASC") or die($mysqli->error);
 
 		$query = $mysqli->query("SELECT * FROM course ORDER BY year ASC") or die($mysqli->error);
 		$display = "";
@@ -31,8 +31,8 @@ require 'database_connection.php';
 			 	<td>$departmentName</td>
 			 	<td>$year</td>
 			 	<td>$semester</td>
-			 	<td><a href=\"edit_course_details.php?courseCode=$courseCode\"> Edit</td>
-			 	<td><a href=\"edit_courses.php?courseCode=$courseCode\">Delete</td>
+			 	<td> <a href=\"edit_course_details.php?courseCode=$courseCode\" > Edit</td>
+			 	<td><a href=\"edit_courses.php?courseCode=$courseCode\" >Delete</td>
 			 </tr>
 			</tbody>";
 			}
@@ -41,7 +41,7 @@ require 'database_connection.php';
 		}
 
 	}else{
-		header("location:login.php");
+		header("location: login.php");
 	}
 ?>
 
@@ -51,7 +51,7 @@ require 'database_connection.php';
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#2196F3">
-    <title>Edit Courses | Room Booking System</title>
+    <title>Edit Room | Room Booking System</title>
 
     <style type="text/css">
         .imp{
@@ -60,10 +60,10 @@ require 'database_connection.php';
         }
     </style>
 
-    <link href="../css/style.css" type="text/css" rel="stylesheet"/>
-    <link href="../css/plugin.css" type="text/css" rel="stylesheet"/>
+    <link href="../css/style.css" type="text/css" rel="stylesheet">
+    <link href="../css/plugin.css" type="text/css" rel="stylesheet" >
 </head>
-<body>
+<body >
 
 <!-- Pre Loader -->
 <div id="loader-wrapper">
@@ -97,7 +97,7 @@ require 'database_connection.php';
    <div class="row">
    		 <h2 class="col s4 header text_b" style="color:	white;">EDIT</h2>
  		
-            <div class="col s4 offset-s10"><button class="waves-effect waves-light btn-large" id="openPopupButton">Add Course</button></div>
+            <div class="col s4 offset-s10"><button class="waves-effect waves-light btn-large" id="openPopupButton">Add Room</button></div>
         
  		
 		</div>
@@ -109,10 +109,10 @@ require 'database_connection.php';
 						<tr><td style="border-left:5px solid  #303F9F; opacity:1;"><a href="edit_blocks.php" style="color:white"> BLOCKS</a></td></tr>
 		
 					  <tr>
-						<td style="border-left:5px solid  #303F9F; opacity:1;"><a href="edit_rooms.php" style="color:white">ROOMS</a></td>
+						<td style="border-left:5px solid  #303F9F; opacity:1; background:#303F9F" style="color:white"><a href="edit_rooms.php" style="color:white">ROOMS</a></td>
 					  </tr>
 					  <tr>
-						<td style="border-left:5px solid  #303F9F; opacity:1;  background:#303F9F" style="color:white"><a href="edit_courses.php" style="color:white">COURSES</a></td>
+						<td style="border-left:5px solid  #303F9F; opacity:1;"><a href="edit_courses.php" style="color:white">COURSES</a></td>
 					  </tr>
 					  <tr>
 						<td style="border-left:5px solid  #303F9F; opacity:1;"><a href="edit_teachers.php" style="color:white">TEACHERS</a></td>
@@ -146,35 +146,33 @@ require 'database_connection.php';
 
 
 <div id="popup" class="modal">
- 	<div class="modal-content">
-    	<span class="close"> x </span>
-   		<h4>Add a new Course</h4>
+  <div class="modal-content">
+     <span class="close"> x </span>
+      <h4>Add a new Course</h4>
     
-	    <div class="modal-body">
-		 	<form class="col s12">
-				<p> Course Name</p> <input class="input-field" id="courseName" type="text"/>
-				<p> Course Code</p> <input class="input-field" id="courseCode" type="text"/>
-				<p> Deparment Associated</p> 
+    <div class="modal-body">
+	  <form class="col s12">
+		<p> Block Number</p> 
 
-					<select name="departmentName" id='department' class="imp" required>
+		<select name="blockNo" id='blockNo' class="imp" required>
 
                     <?php 
                         if($departmentList->num_rows){
                             while ($row = $departmentList->fetch_array(MYSQLI_ASSOC)) {
-                                $departmentName = $row['departmentName'];
+                                $blockNo = $row['blockNo'];
                     ?>
-                        <option id="departmentName" value="<?= $departmentName ?>"><?= $departmentName ?></option>
+                        <option id="blockNo" value="<?= $blockNo ?>"><?= $blockNo ?></option>
                     <?php } }else{ ?>
-                        <option value="" id="departmentName"></option>
+                        <option value="" id="blockNo"></option>
                     <?php }?>         
-            </select>
+        </select>
 
-				<p> Year </p> <input class="input-field" id="year" type="number"/>
-				<p> Semester </p> <input class="input-field" id="semester" type="number"/>
-				<input type="submit" id="addCourse"/>
-			</form>
-	    </div>
-  	</div>
+		<p> Room Number</p> <input class="input-field" id="roomNo" type="text"/>
+		<p> Capacity</p> <input class="input-field" id="capacity" type="text"/>
+		<input type="submit" id="addRoom"/>
+	</form>
+    </div>
+  </div>
 
 </div>
 
@@ -208,6 +206,6 @@ window.onclick = function(event) {
 
 
 <script type="text/javascript" src="../js/jquery-1.8.0.min.js"></script>
-<script type="text/javascript" src="../js/add_course.js"></script>
+<script type="text/javascript" src="../js/add_room.js"></script>
 </body>
 </html>

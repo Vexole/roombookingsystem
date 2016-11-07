@@ -10,6 +10,7 @@ $date = date("Y-m-d");
 
 $query = $mysqli->query("SELECT * FROM course ORDER BY courseCode ASC") or die($mysqli->error);
 $query1 = $mysqli->query("SELECT * FROM teacher ORDER BY teacherMail ASC") or die($mysqli->error);
+$query2 = $mysqli->query("SELECT * FROM room WHERE blockNo='$blockNo'")or die($mysqli->error);
 
 
 ?>
@@ -79,7 +80,12 @@ $query1 = $mysqli->query("SELECT * FROM teacher ORDER BY teacherMail ASC") or di
             padding-bottom: 0;
             margin-bottom: 0;
         }
+        .imp{
+            display: inline-block;
+            margin-bottom: 12px;
+        }
     </style>
+
 <center>
     <br>
     <form method="post">
@@ -91,9 +97,24 @@ $query1 = $mysqli->query("SELECT * FROM teacher ORDER BY teacherMail ASC") or di
                 <td><input name="blockNo" id="blockNo" type="hidden"  disabled="disabled" class="form-control" value="<?=$blockNo?>"/></td>
             </tr>
             
+
+
             <tr>
                 <td><label>Room Number</label></td>
-                <td><input name="roomNo" id="roomNo" min="1" max="30" type="number" value="<?=$roomNo?>"/></td>
+                <td>
+                   <select name="roomNo" id='roomNo' class="imp" required>
+
+                    <?php 
+                        if($query2->num_rows){
+                            while ($row = $query2->fetch_array(MYSQLI_ASSOC)) {
+                                $roomNo = $row['roomNo'];
+                    ?>
+                        <option id="roomNo" value="<?= $roomNo ?>"><?= $roomNo ?></option>
+                    <?php } }else{ ?>
+                        <option value="" id="roomNo"></option>
+                    <?php }?>         
+                     </select>
+               </td>
             </tr>
 
             <tr>
@@ -113,13 +134,39 @@ $query1 = $mysqli->query("SELECT * FROM teacher ORDER BY teacherMail ASC") or di
                     
             <tr>
                 <td><label>Course Code</label></td>
-                <td><input name="courseCode" id="courseCode" type="text" required/></td>
+                <td>
+                   <select name="courseCode" id='courseCode' class="imp" required>
+
+                    <?php 
+                        if($query->num_rows){
+                            while ($row = $query->fetch_array(MYSQLI_ASSOC)) {
+                                $courseCode = $row['courseCode'];
+                    ?>
+                        <option id="courseCode" value="<?= $courseCode ?>"><?= $courseCode ?></option>
+                    <?php } }else{ ?>
+                        <option value="" id="courseCode"></option>
+                    <?php }?>         
+                     </select>
+               </td>
             </tr>
 
 
             <tr>
                 <td><label>Requested By</label></td>
-                <td><input name="teacherMail" id="teacherMail" type="email" required/></td>
+                <td>
+                   <select name="teacherMail" id='teacherMail' class="imp" required>
+
+                    <?php 
+                        if($query1->num_rows){
+                            while ($row = $query1->fetch_array(MYSQLI_ASSOC)) {
+                                $teacherMail = $row['teacherMail'];
+                    ?>
+                        <option id="teacherMail" value="<?= $teacherMail ?>"><?= $teacherMail ?></option>
+                    <?php } }else{ ?>
+                        <option value="" id="teacherMail"></option>
+                    <?php }?>         
+                     </select>
+               </td>
             </tr>
 
             <tr>

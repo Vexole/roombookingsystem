@@ -1,5 +1,9 @@
 body{
 	background: #2196F3;
+} 
+.imp{
+    display: inline-block;
+    margin-bottom: 12px;
 }
 .default_color {
 	

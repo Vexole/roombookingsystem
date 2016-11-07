@@ -1,23 +1,21 @@
 <?php
 session_start();
 require 'database_connection.php';
-if(!isset($_GET['courseCode'])){
+if(!isset($_GET['teacherID'])){
     header('location:edit_courses.php');
 }
-$courseCode = $_GET['courseCode'];
-$_SESSION['updateCourseCode'] = $courseCode;
+$teacherID = $_GET['teacherID'];
+$_SESSION['updateTeacherID'] = $teacherID;
 
 $departmentList = $mysqli->query("SELECT departmentName FROM department ORDER BY departmentName ASC") or die($mysqli->error);
 
-
-$query = $mysqli->query("SELECT * FROM course WHERE courseCode='$courseCode' LIMIT 1") or die($mysqli->error);
+$query = $mysqli->query("SELECT * FROM teacher WHERE teacherID='$teacherID' LIMIT 1") or die($mysqli->error);
 if($query->num_rows){
   while($row = $query->fetch_array(MYSQLI_ASSOC)){
-    $courseCode = $row['courseCode'];
+    $teacherName = $row['teacherName'];
+    $teacherMail = $row['teacherMail'];
     $departmentName = $row['departmentName'];
-    $courseName = $row['courseName'];
-    $year = $row['year'];
-    $semester = $row['semester'];
+    $number = $row['number'];
   }
 }
 ?>
@@ -62,12 +60,13 @@ if($query->num_rows){
         
         <div class="row">
             <div class="input-field col s12">
-        <p>Course Name</p><input name="courseName" id="courseName" type="text" value="<?=$courseName?>"/>
+        <p>Teacher Name </p><input name="teacherName" id="teacherName" type="text" value="<?=$teacherName?>"/>
          </div>
         </div>
         <div class="row">
             <div class="input-field col s12">
-        <p>Departments offering the course</p>
+        <p>Department Associated </p>
+
 
             <select name="departmentName" id='departmentName' class="imp" required>
 
@@ -89,19 +88,15 @@ if($query->num_rows){
         </div>
         <div class="row">
             <div class="input-field col s12">
-                <p>Course Code</p> <input name="courseCode" id="courseCode" type="text" value="<?=$courseCode?>"/>
+                <p>Mail Address</p> <input name="teacherMail" id="teacherMail" type="text" value="<?=$teacherMail?>"/>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s12">
-                <p>Year</p><input name="year" id="year" type="number" value="<?=$year?>"/>
+                <p>Number</p><input name="number" id="number" type="number" value="<?=$number?>"/>
                 </div>
         </div>
-         <div class="row">
-            <div class="input-field col s12">
-                <p>Semester</p><input name="semester" id="semester" type="number" min="1" max="2" value="<?=$semester?>"/>
-                </div>
-        </div>
+         
         <div class="row">
             <div class="input-field col s12">
                 <input type="button" id="saveDetail" name="saveDetails" value="Save new Details"/>
@@ -112,6 +107,6 @@ if($query->num_rows){
 </div>
 
 <script type="text/javascript" src="../js/jquery-1.8.0.min.js"></script>
-<script type="text/javascript" src="../js/add_course.js"></script>
+<script type="text/javascript" src="../js/add_teacher.js"></script>
 
 </body>

@@ -32,7 +32,7 @@ session_start();
     <nav id="nav_f" class="default_color" role="navigation">
         <div class="container">
             <div class="nav-wrapper">
-            <a href="index.html" id="logo-container" class="brand-logo">Room Booking System</a>
+            <a href="index.php" id="logo-container" class="brand-logo">Room Booking System</a>
             <a href="#" class="brand-logo right">Kathmandu University</a>   
             </div>
         
@@ -46,24 +46,25 @@ session_start();
     <h2 class="header text_b" style="color: white;">Log in</h2>
     
      <div class="row">
+        <center>
     <form class="col s5">
       <div class="row">
         
         <div class="input-field col s12">
-         <p>Username:</p> <input id="userName" type="text" class="validate">
+         <p>Username:</p> <input id="userName" type="text" class="validate" required>
         </div>
       </div>
    
       <div class="row">
         <div class="input-field col s12">
-          <p>Password:</p><input id="password" type="password" class="validate">
+          <p>Password:</p><input id="password" type="password" class="validate" required>
         </div>
       </div>
         <div class="row">
             <div class="col s8 offset-s8"><button class="waves-effect waves-light btn-large" id="login">Log in</button></div>
         </div>
     </form>  
-    
+    </center>
   </div>
     <div class="row">
         <div class="col s2">

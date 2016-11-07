@@ -34,3 +34,4 @@ if(isset($_POST['bookedDate']) && isset($_POST['startTime']) && isset($_POST['fi
         echo "1";
     }
 }
+?>

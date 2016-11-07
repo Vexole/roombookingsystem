@@ -18,7 +18,7 @@ $(document).ready(function(){
                     $("#roomNo").val("");
                 }else{
                     alert(data);
-                   // window.location.replace('../admin/index.php');
+                    window.location.replace('../php/edit_rooms.php');
                 }
            	}
         });
