@@ -13,5 +13,7 @@ if(isset($_POST['courseCode']) && isset($_POST['courseName']) && isset($_POST['d
 
     $update = $mysqli->query("UPDATE course SET courseCode='$courseCode', courseName='$courseName', departmentName='$department', year='$year', semester='$semester' WHERE courseCode='$updateCourseCode'") or die($mysqli->error);
         echo "Course Successfully Updated";
+}else{
+	echo "0";
 }
 ?>

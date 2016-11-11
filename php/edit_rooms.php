@@ -4,35 +4,32 @@ require 'database_connection.php';
 
 	if(isset($_SESSION['rsUserName']) && isset($_SESSION['rsPassword'])){
 
-		if(isset($_GET['courseCode'])){
-			$courseCode = $_GET['courseCode'];
-			$delete = $mysqli->query("DELETE FROM course where courseCode = '$courseCode'") or die($mysqli->error);
-			header('location:edit_courses.php');
+		if(isset($_GET['roomNo']) && isset($_GET['blockNo'])){
+			$roomNo = $_GET['roomNo'];
+			$blockNo = $_GET['blockNo'];
+			$delete = $mysqli->query("DELETE FROM room where roomNo = '$roomNo' AND blockNo = '$blockNo'") or die($mysqli->error);
+			header('location:edit_rooms.php');
 		}
 
 		$departmentList = $mysqli->query("SELECT blockNo FROM department ORDER BY blockNo ASC") or die($mysqli->error);
 
-		$query = $mysqli->query("SELECT * FROM course ORDER BY year ASC") or die($mysqli->error);
+		$query = $mysqli->query("SELECT * FROM room ORDER BY blockNo ASC") or die($mysqli->error);
 		$display = "";
 
 		if($query->num_rows){
 			while($rows = $query->fetch_array(MYSQLI_ASSOC)){
-				$courseName = strtoupper($rows['courseName']);
-	  			$courseCode = $rows['courseCode'];
-	   			$departmentName = $rows['departmentName'];
-	   			$year = $rows['year'];
-	   			$semester = $rows['semester'];
-
+				$roomNo = strtoupper($rows['roomNo']);
+	  			$blockNo = $rows['blockNo'];
+	   			$capacity = $rows['capacity'];
+	   	
 	    	$display .= "
 	    	<tbody>
 			 <tr>
-			 	<td>$courseCode</td>
-			 	<td>$courseName</td>
-			 	<td>$departmentName</td>
-			 	<td>$year</td>
-			 	<td>$semester</td>
-			 	<td> <a href=\"edit_course_details.php?courseCode=$courseCode\" > Edit</td>
-			 	<td><a href=\"edit_courses.php?courseCode=$courseCode\" >Delete</td>
+			 	<td>$blockNo</td>
+			 	<td>$roomNo</td>
+			 	<td>$capacity</td>
+			 	<td> <a href=\"edit_room_details.php?roomNo=$roomNo&&blockNo=$blockNo\" > Edit</td>
+			 	<td><a href=\"edit_rooms.php?roomNo=$roomNo&&blockNo=$blockNo\" >Delete</td>
 			 </tr>
 			</tbody>";
 			}
@@ -41,7 +38,7 @@ require 'database_connection.php';
 		}
 
 	}else{
-		header("location: login.php");
+		header("location:login.php");
 	}
 ?>
 
@@ -125,11 +122,9 @@ require 'database_connection.php';
 				<table class="highlight">
 			<thead>
 			  <tr>
-				  <th data-field="id"> Course Code</th>
-				  <th data-field="name">Course Name</th>
-				  <th data-field="department">Department</th>
-				  <th data-field="year">Year</th>
-				  <th data-field="semester">Semester</th>
+				  <th data-field="blockNo"> Block Number</th>
+				  <th data-field="roomNo">Room Number</th>
+				  <th data-field="capacity">Capacity</th>
 				  <th></th>
 				  <th></th>
 				   </tr>

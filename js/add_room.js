@@ -25,4 +25,31 @@ $(document).ready(function(){
         return false;
     }
 	});
+
+    $("#saveDetail").click(function(){
+        roomNo = $.trim($("#roomNo").val());
+        blockNo = $.trim($("#blockNo").val());
+        capacity = $.trim($("#capacity").val());
+
+         if(roomNo && blockNo && capacity){
+            $.ajax({
+            type: 'POST',
+            url: '../php/edit_room_validate.php',
+            data: {
+                roomNo: roomNo, blockNo: blockNo, capacity:capacity
+            },
+            success: function(data){
+                    if(data == "0") {
+                    alert("Room already in existence under given department");
+                    $("#roomNo").val("");
+                    $("#blockNo").val("");
+                }else{
+                    alert(data);
+                    window.location.replace('../php/edit_rooms.php');
+                }
+            }
+        });
+        return false;
+      }
+    });
 });
