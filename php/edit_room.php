@@ -11,14 +11,17 @@ require 'database_connection.php';
 			header('location:edit_rooms.php');
 		}
 
-		$departmentList = $mysqli->query("SELECT blockNo FROM department ORDER BY blockNo ASC") or die($mysqli->error);
+		if(isset($_GET['blockNo'])){
+			$blockNo = $_GET['blockNo'];
 
-		$query = $mysqli->query("SELECT * FROM room ORDER BY blockNo ASC") or die($mysqli->error);
+		$departmentList = $mysqli->query("SELECT * FROM department ORDER BY departmentName ASC") or die($mysqli->error);
+
+		$query = $mysqli->query("SELECT * FROM room WHERE blockNo='$blockNo' ORDER BY roomNo ASC") or die($mysqli->error);
 		$display = "";
 
 		if($query->num_rows){
 			while($rows = $query->fetch_array(MYSQLI_ASSOC)){
-				$roomNo = $rows['roomNo'];
+				$roomNo = strtoupper($rows['roomNo']);
 	  			$blockNo = $rows['blockNo'];
 	   			$capacity = $rows['capacity'];
 	   	
@@ -34,9 +37,9 @@ require 'database_connection.php';
 			</tbody>";
 			}
 		}else{
-			$display .= "No courses available yet";
+			$display .= "No rooms available yet";
 		}
-
+}
 	}else{
 		header("location:login.php");
 	}
@@ -94,9 +97,7 @@ require 'database_connection.php';
     <div class="container">
    <div class="row">
    		 <h2 class="col s4 header text_b" style="color:	white;">EDIT</h2>
- 		
-            <div class="col s4 offset-s10"><button class="waves-effect waves-light btn-large" id="openPopupButton">Add Room</button></div>
-        
+ 	        
  		
 		</div>
 	
@@ -119,8 +120,33 @@ require 'database_connection.php';
 				</table>
 			</div>
 			<div class="col s10">
-				
-				<table class="highlight">
+
+
+		   <div class="row">
+			    <div class="col s12">
+			      	<ul class="tabs">
+			      		<?php
+			      			if($departmentList->num_rows){
+			      				while ($rows = $departmentList->fetch_array(MYSQLI_ASSOC)) {
+			      					$blockNo = $rows['blockNo'];
+			      				?>	
+
+							<div class="row">
+							    <div class="col s12">
+							     	<ul class="tabs">
+							       		<li class="tab col s3"><a href="edit_room.php?blockNo=<?=$blockNo?>"> &nbsp; <?=$rows['departmentName']?> &nbsp;</a></li>
+							      	</ul>
+							    </div>
+							</div>
+
+			      				 <?php }
+			      			}?>
+					</ul>
+				</div>
+			</div>
+        
+
+        		<table class="highlight">
 			<thead>
 			  <tr>
 				  <th data-field="blockNo"> Block Number</th>
@@ -131,90 +157,15 @@ require 'database_connection.php';
 				   </tr>
 			</thead>
 			
-
-<div class="row">
-    <div class="col s12">
-      <ul class="tabs">
-        <li class="tab col s3"><a href="#test1">Test 1</a></li>
-        <li class="tab col s3"><a class="active" href="#test2">Test 2</a></li>
-        <li class="tab col s3 disabled"><a href="#test3">Disabled Tab</a></li>
-        <li class="tab col s3"><a href="#test4">Test 4</a></li>
-      </ul>
-    </div>
-    <div id="test1" class="col s12">Test 1</div>
-    <div id="test2" class="col s12">Test 2</div>
-    <div id="test3" class="col s12">Test 3</div>
-    <div id="test4" class="col s12">Test 4</div>
-  </div>
-
-
+			<?=$display;?>
 		  </table>
+
 
 			</div>
 		</div>
 		
 	</div>
 </div>
-
-
-<div id="popup" class="modal">
-  <div class="modal-content">
-     <span class="close"> x </span>
-      <h4>Add a new Course</h4>
-    
-    <div class="modal-body">
-	  <form class="col s12">
-		<p> Block Number</p> 
-
-		<select name="blockNo" id='blockNo' class="imp" required>
-
-                    <?php 
-                        if($departmentList->num_rows){
-                            while ($row = $departmentList->fetch_array(MYSQLI_ASSOC)) {
-                                $blockNo = $row['blockNo'];
-                    ?>
-                        <option id="blockNo" value="<?= $blockNo ?>"><?= $blockNo ?></option>
-                    <?php } }else{ ?>
-                        <option value="" id="blockNo"></option>
-                    <?php }?>         
-        </select>
-
-		<p> Room Number</p> <input class="input-field" id="roomNo" type="text"/>
-		<p> Capacity</p> <input class="input-field" id="capacity" type="text"/>
-		<input type="submit" id="addRoom"/>
-	</form>
-    </div>
-  </div>
-
-</div>
-
-<script>
-// Get the modal
-var modalVar = document.getElementById('popup');
-
-// Get the button that opens the modal
-var openPopup = document.getElementById("openPopupButton");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal
-openPopup.onclick = function() {
-    modalVar.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modalVar.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modalVar) {
-        modalVar.style.display = "none";
-    }
-}
-</script>
 
 
 <script type="text/javascript" src="../js/jquery-1.8.0.min.js"></script>

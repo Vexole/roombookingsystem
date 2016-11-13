@@ -10,11 +10,16 @@ require 'database_connection.php';
 			header('location:edit_teachers.php');
 		}
 
+		if(isset($_GET['blockNo'])){
+			$blockNo = $_GET['blockNo'];
+
 		$departmentList = $mysqli->query("SELECT * FROM department ORDER BY departmentName ASC") or die($mysqli->error);
-		$departmentList1 = $mysqli->query("SELECT * FROM department ORDER BY departmentName ASC") or die($mysqli->error);
+		$query1 = $mysqli->query("SELECT departmentName FROM department WHERE blockNo='$blockNo' LIMIT 1") or die($mysqli->error);
+		while($row = $query1->fetch_array(MYSQLI_ASSOC)){
+			$departmentName = $row['departmentName'];
+		}
 
-
-		$query = $mysqli->query("SELECT * FROM teacher ORDER BY teacherName ASC") or die($mysqli->error);
+		$query = $mysqli->query("SELECT * FROM teacher WHERE departmentName='$departmentName' ORDER BY teacherName ASC") or die($mysqli->error);
 		$display = "";
 
 		if($query->num_rows){
@@ -40,7 +45,7 @@ require 'database_connection.php';
 		}else{
 			$display .= "No teachers available yet";
 		}
-
+}
 	}else{
 		header("location:login.php");
 	}
@@ -120,14 +125,14 @@ require 'database_connection.php';
 				</table>
 			</div>
 			<div class="col s10">
-				
 
-				 <div class="row">
+
+				<div class="row">
 			    <div class="col s12">
 			      	<ul class="tabs">
 			      		<?php
-			      			if($departmentList1->num_rows){
-			      				while ($rows = $departmentList1->fetch_array(MYSQLI_ASSOC)) {
+			      			if($departmentList->num_rows){
+			      				while ($rows = $departmentList->fetch_array(MYSQLI_ASSOC)) {
 			      					$blockNo = $rows['blockNo'];
 			      				?>	
 
@@ -144,9 +149,9 @@ require 'database_connection.php';
 					</ul>
 				</div>
 			</div>
+        
 
-
-
+				
 				<table class="highlight">
 			<thead>
 			  <tr>
@@ -167,6 +172,7 @@ require 'database_connection.php';
 		
 	</div>
 </div>
+
 
 
 <div id="popup" class="modal">
@@ -228,6 +234,7 @@ window.onclick = function(event) {
     }
 }
 </script>
+
 
 
 <script type="text/javascript" src="../js/jquery-1.8.0.min.js"></script>

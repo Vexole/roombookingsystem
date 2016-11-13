@@ -11,7 +11,8 @@ require 'database_connection.php';
 			header('location:edit_rooms.php');
 		}
 
-		$departmentList = $mysqli->query("SELECT blockNo FROM department ORDER BY blockNo ASC") or die($mysqli->error);
+		$departmentList = $mysqli->query("SELECT * FROM department ORDER BY blockNo ASC") or die($mysqli->error);
+		$departmentList1 = $mysqli->query("SELECT * FROM department ORDER BY departmentName ASC") or die($mysqli->error);
 
 		$query = $mysqli->query("SELECT * FROM room ORDER BY blockNo ASC") or die($mysqli->error);
 		$display = "";
@@ -34,7 +35,7 @@ require 'database_connection.php';
 			</tbody>";
 			}
 		}else{
-			$display .= "No courses available yet";
+			$display .= "No rooms available yet";
 		}
 
 	}else{
@@ -58,6 +59,7 @@ require 'database_connection.php';
     </style>
 
     <link href="../css/style.css" type="text/css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" type="text/css" rel="stylesheet">
     <link href="../css/plugin.css" type="text/css" rel="stylesheet" >
 </head>
 <body >
@@ -119,7 +121,34 @@ require 'database_connection.php';
 			</div>
 			<div class="col s10">
 				
-				<table class="highlight">
+		
+
+
+		    <div class="row">
+			    <div class="col s12">
+			      	<ul class="tabs">
+			      		<?php
+			      			if($departmentList1->num_rows){
+			      				while ($rows = $departmentList1->fetch_array(MYSQLI_ASSOC)) {
+			      					$blockNo = $rows['blockNo'];
+			      				?>	
+
+							<div class="row">
+							    <div class="col s12">
+							     	<ul class="tabs">
+							       		<li class="tab col s3"><a href="edit_room.php?blockNo=<?=$blockNo?>"> &nbsp; <?=$rows['departmentName']?> &nbsp;</a></li>
+							      	</ul>
+							    </div>
+							</div>
+
+			      				 <?php }
+			      			}?>
+					</ul>
+				</div>
+			</div>
+
+        
+		<table class="highlight">
 			<thead>
 			  <tr>
 				  <th data-field="blockNo"> Block Number</th>
@@ -133,6 +162,7 @@ require 'database_connection.php';
 			<?=$display;?>
 		  </table>
 
+
 			</div>
 		</div>
 		
@@ -143,7 +173,7 @@ require 'database_connection.php';
 <div id="popup" class="modal">
   <div class="modal-content">
      <span class="close"> x </span>
-      <h4>Add a new Course</h4>
+      <h4>Add a new Room</h4>
     
     <div class="modal-body">
 	  <form class="col s12">
